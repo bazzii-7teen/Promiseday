@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Sabaina 💍</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Caveat:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: 'Caveat', cursive;
+            background: #fef9f3;
+            min-height: 100vh;
+            color: #5a4a42;
+            overflow-x: hidden;
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Ctext y='16' font-size='16'%3E💕%3C/text%3E%3C/svg%3E"), auto;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .click-heart {
+            position: fixed;
+            font-size: 16px;
+            pointer-events: none;
+            animation: floatAway 1.5s ease-out forwards;
+            z-index: 9999;
+        }
+        
+        @keyframes floatAway {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-30px) scale(0.5); opacity: 0; }
+        }
+        
+        .page { 
+            display: none; 
+            padding: 40px 25px; 
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .page.active { 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 1s ease;
+        }
+        
+        @keyframes fadeIn { 
+            from { opacity: 0; } 
+            to { opacity: 1; } 
+        }
+        
+        h1 { 
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem; 
+            color: #d4a5a5;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        h2 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.2rem;
+            color: #c9b1b1;
+            margin: 20px 0;
+        }
+        
+        .rose { 
+            font-size: 4rem; 
+            margin: 20px 0;
+            animation: gentleSway 3s ease-in-out infinite;
+        }
+        
+        @keyframes gentleSway {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+        
+        .name { 
+            font-family: 'Dancing Script', cursive;
+            font-size: 2rem; 
+            color: #b89090; 
+            margin: 15px 0;
+        }
+        
+        .typing-text {
+            font-size: 1.4rem;
+            line-height: 1.9;
+            max-width: 340px;
+            text-align: center;
+            min-height: 60px;
+        }
+        
+        .cursor-blink {
+            display: inline-block;
+            width: 2px;
+            height: 1.2em;
+            background: #d4a5a5;
+            margin-left: 2px;
+            animation: blink 1s infinite;
+            vertical-align: middle;
+        }
+        
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        
+        .next-btn {
+            background: #d4a5a5;
+            color: #fff;
+            border: none;
+            padding: 14px 40px;
+            border-radius: 25px;
+            font-family: 'Caveat', cursive;
+            font-size: 1.3rem;
+            margin-top: 35px;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #c09090;
+            transition: all 0.2s ease;
+        }
+        
+        .next-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 #c09090;
+        }
+        
+        .small-heart {
+            display: inline-block;
+            font-size: 0.8em;
+            animation: tinyBeat 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes tinyBeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        
+        .date-stamp {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 0.9rem;
+            color: #c9b1b1;
+            transform: rotate(-3deg);
+            border: 1px solid #e8d5d5;
+            padding: 5px 12px;
+            border-radius: 15px;
+            background: #fff;
+        }
+        
+        /* Flip cards for Page 2 */
+        .flip-card {
+            background: transparent;
+            width: 280px;
+            height: 80px;
+            margin: 10px 0;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 3px 3px 0 rgba(212, 165, 165, 0.2);
+        }
+        
+        .flip-card-front {
+            background: #fff;
+            border: 1px solid #e8d5d5;
+            color: #b89090;
+        }
+        
+        .flip-card-back {
+            background: #d4a5a5;
+            color: #fff;
+            transform: rotateY(180deg);
+            border: 1px solid #d4a5a5;
+        }
+        
+        /* Diary entries for Page 3 */
+        .diary-entry {
+            background: #fff;
+            border: 1px solid #e8d5d5;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 10px 0;
+            max-width: 320px;
+            box-shadow: 2px 2px 0 rgba(212, 165, 165, 0.15);
+            text-align: left;
+            position: relative;
+        }
+        
+        .diary-date {
+            font-size: 0.9rem;
+            color: #c9b1b1;
+            margin-bottom: 8px;
+            font-style: italic;
+        }
+        
+        /* Promise cards */
+        .promise-card {
+            background: #fff;
+            border: 1px solid #e8d5d5;
+            border-radius: 12px;
+            padding: 25px 20px;
+            margin: 12px 0;
+            max-width: 320px;
+            box-shadow: 3px 3px 0 rgba(212, 165, 165, 0.2);
+            font-size: 1.3rem;
+            line-height: 1.6;
+            transform: rotate(-1deg);
+            transition: transform 0.3s ease;
+        }
+        
+        .promise-card:nth-child(even) {
+            transform: rotate(1deg);
+        }
+        
+        .promise-card:hover {
+            transform: rotate(0deg) scale(1.02);
+        }
+        
+        /* Love letter */
+        .love-letter {
+            background: #fff;
+            border: 1px solid #e8d5d5;
+            border-radius: 15px;
+            padding: 35px 30px;
+            max-width: 350px;
+            box-shadow: 4px 4px 0 rgba(212, 165, 165, 0.15);
+            font-size: 1.25rem;
+            line-height: 2;
+            text-align: left;
+            position: relative;
+        }
+        
+        .love-letter::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 30px;
+            width: 2px; height: 100%;
+            background: repeating-linear-gradient(
+                to bottom,
+                transparent,
+                transparent 28px,
+                #f0e0e0 28px,
+                #f0e0e0 30px
+            );
+        }
+        
+        .signature {
+            margin-top: 30px;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5rem;
+            color: #b89090;
+            text-align: right;
+        }
+        
+        /* Final page confetti */
+        .confetti {
+            position: fixed;
+            font-size: 20px;
+            animation: confettiFall 3s ease-out forwards;
+            z-index: 9999;
+        }
+        
+        @keyframes confettiFall {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+        
+        .big-yes-btn {
+            background: #ff6b9d;
+            color: #fff;
+            border: none;
+            padding: 20px 50px;
+            border-radius: 30px;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.6rem;
+            margin-top: 30px;
+            cursor: pointer;
+            box-shadow: 0 5px 0 #e05585;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Music -->
+    <audio id="bgMusic" loop>
+        <source src="https://files.catbox.moe/4a15jn.mp3" type="audio/mpeg">
+    </audio>
+    <!-- PAGE 1: Opening -->
+    <div class="page active" id="page1">
+        <div class="date-stamp">Promise Day 2025</div>
+        <p style="font-size: 1.2rem; color: #b89090; margin-bottom: 10px;">Hey...</p>
+        <div class="rose">🌹</div>
+        <h1>For Sabaina</h1>
+        <p class="typing-text" id="typing1"></p>
+        <button class="next-btn" onclick="goPage(2); startMusic();">Open this <span class="small-heart">💕</span></button>
+    </div>
+
+    <!-- PAGE 2: 10 Things I Love About You -->
+    <div class="page" id="page2">
+        <h2>10 Things I Love About You</h2>
+        <p style="font-size: 1.1rem; margin-bottom: 20px; color: #b89090;">Click each card to reveal...</p>
+        
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">1. Your smile <span class="small-heart">🤍</span></div>
+                <div class="flip-card-back">It lights up my whole day</div>
+            </div>
+        </div>
+        
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">2. Your laugh <span class="small-heart">💫</span></div>
+                <div class="flip-card-back">It's my favorite sound</div>
+            </div>
+        </div>
+        
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">3. Your kindness <span class="small-heart">🌸</span></div>
+                <div class="flip-card-back">You make everyone feel special</div>
+            </div>
+        </div>
+        
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">4. Your strength <span class="small-heart">💪</span></div>
+                <div class="flip-card-back">You handle everything with grace</div>
+            </div>
+        </div>
+        
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">5. Your eyes <span class="small-heart">👀</span></div>
+                <div class="flip-card-back">I get lost in them every time</div>
+            </div>
+        </div>
+        
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">6. Your voice <span class="small-heart">🎵</span></div>
+                <div class="flip-card-back">It calms my chaos instantly</div>
+            </div>
+        </div>
+        
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">7. Your honesty <span class="small-heart">🤞</span></div>
+                <div class="flip-card-back">You always keep it real with me</div>
+            </div>
+        </div>
+        
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">8. Your patience <span class="small-heart">⏳</span></div>
+                <div class="flip-card-back">Even when I mess up, you're there</div>
+            </div>
+        </div>
+        
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">9. Your dreams <span class="small-heart">✨</span></div>
+                <div class="flip-card-back">I love how passionate you are</div>
+            </div>
+        </div>
+        
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">10. Your heart <span class="small-heart">💖</span></div>
+                <div class="flip-card-back">It's the most beautiful thing I know</div>
+            </div>
+        </div>
+        
+        <button class="next-btn" onclick="goPage(3)">Our memories <span class="small-heart">📖</span></button>
+    </div>
+    <!-- PAGE 3: Our Memories -->
+    <div class="page" id="page3">
+        <h2>Pages From My Heart</h2>
+        <p style="font-size: 1.1rem; margin-bottom: 25px; color: #b89090;">Little moments I never want to forget...</p>
+        
+        <div class="diary-entry">
+            <div class="diary-date">📅 The First Time We Met</div>
+            <p>I still remember exactly how we meet 😭idk why i make that gc and somehow i fight with that dude too and we start talking 🥹its just a coincidence or ?.</p>
+        </div>
+        
+        <div class="diary-entry">
+            <div class="diary-date">📅 Our First Conversation</div>
+            <p>We talked for hours like we'd known each other forever. You laughed at my stupid jokes. I went home with the biggest smile.</p>
+        </div>
+        
+        <div class="diary-entry">
+            <div class="diary-date">📅 When I Knew I Loved You</div>
+            <p>It wasn't one big moment. It was a hundred small ones. The way you care, the way you listen, the way you make me feel home.</p>
+        </div>
+        
+        <div class="diary-entry">
+            <div class="diary-date">📅 My Favorite Day With You</div>
+            <p>Every day with you is my favorite. But that one ordinary Tuesday when we just existed together? Perfect. Absolutely perfect.</p>
+        </div>
+        
+        <button class="next-btn" onclick="goPage(4)">My promises to you <span class="small-heart">🤍</span></button>
+    </div>
+
+    <!-- PAGE 4: The Promises -->
+    <div class="page" id="page4">
+        <h2>I Promise You...</h2>
+        <p style="font-size: 1.2rem; margin-bottom: 25px; color: #b89090;">Not just words. My word.</p>
+        
+        <div class="promise-card">
+            I promise to be there even when things get hard. Not just for the good days. Especially for the bad ones. <span class="small-heart">🌧️☀️</span>
+        </div>
+        
+        <div class="promise-card">
+            I promise to remember the little things you tell me. Your favorite song, your coffee order, your fears. They matter to me. <span class="small-heart">💭</span>
+        </div>
+        
+        <div class="promise-card">
+            I promise to choose you. Every single day. Even when I'm busy, tired, or stressed. Always you, Sabaina. <span class="small-heart">✨</span>
+        </div>
+        
+        <div class="promise-card">
+            I promise to grow with you. To learn, to change, to become better. For you. For us. <span class="small-heart">🌱</span>
+        </div>
+        
+        <button class="next-btn" onclick="goPage(5)">Read my letter <span class="small-heart">📝</span></button>
+    </div>
+    <!-- PAGE 5: Love Letter -->
+    <div class="page" id="page5">
+        <div class="love-letter">
+            <p style="font-family: 'Dancing Script', cursive; font-size: 1.6rem; color: #d4a5a5; margin-bottom: 20px;">My Dearest Sabaina,</p>
+            
+            <p>I can't promise you a perfect relationship. I can't promise I won't mess up sometimes, say the wrong thing, or forget important dates. I'm human, and I make mistakes.</p>
+            
+            <p>But I can promise that I'll try. Every single day. For you. For us.</p>
+            
+            <p>I promise to respect you — your boundaries, your dreams, your opinions, your heart. I promise to support you even when you doubt yourself, to be your biggest fan when the world feels heavy.</p>
+            
+            <p>I promise to communicate, even when it's hard. To listen, truly listen, not just wait for my turn to speak.</p>
+            
+            <p>I promise to love you in your bad days as fiercely as I love you in your good ones. To hold your hand through storms and dance with you in the rain.</p>
+            
+            <p>I promise to keep choosing this. Choosing you. Again and again, without hesitation, without doubt.</p>
+            
+            <p>Thank you for being you. Thank you for letting me love you. Thank you for making my life infinitely better just by being in it.</p>
+            
+            <p style="margin-top: 25px;">Forever and always,</p>
+            
+            <div class="signature">
+                Bazzi <span class="small-heart">💍</span>
+            </div>
+        </div>
+        
+        <button class="next-btn" onclick="goPage(6)" style="margin-top: 30px;">One last thing... <span class="small-heart">💕</span></button>
+    </div>
+
+    <!-- PAGE 6: Final Question -->
+    <div class="page" id="page6">
+        <div class="rose" style="font-size: 5rem;">💍</div>
+        <h2>Sabaina</h2>
+        <p style="font-size: 1.4rem; max-width: 300px; line-height: 1.8; margin: 20px 0;">
+            I wrote all of this<br>
+            from my heart to yours.<br><br>
+            Will you accept<br>
+            my promises?
+        </p>
+        
+        <button class="big-yes-btn" onclick="celebrate()">YES, I DO <span class="small-heart">💖</span></button>
+        
+        <p id="finalMessage" style="margin-top: 40px; font-size: 1.3rem; color: #d4a5a5; opacity: 0; transition: opacity 1s ease;">
+            You just made me the happiest person alive.<br>
+            I love you, Sabaina. Forever. <span class="small-heart">💍</span>
+        </p>
+    </div>
+
+    <script>
+        // Page navigation
+        function goPage(n) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('page' + n).classList.add('active');
+        }
+        
+        // Music
+        function startMusic() {
+            const music = document.getElementById('bgMusic');
+            music.play().catch(() => {});
+        }
+        
+        // Typing effect for page 1
+        const text1 = "I made this for you...";
+        let i = 0;
+        function typeWriter() {
+            if (i < text1.length) {
+                document.getElementById('typing1').innerHTML = text1.substring(0, i+1) + '<span class="cursor-blink"></span>';
+                i++;
+                setTimeout(typeWriter, 100);
+            } else {
+                document.getElementById('typing1').innerHTML = text1 + '<span class="cursor-blink"></span>';
+            }
+        }
+        typeWriter();
+        
+        // Click hearts effect
+        document.addEventListener('click', function(e) {
+            const heart = document.createElement('div');
+            heart.className = 'click-heart';
+            heart.textContent = ['💕', '💖', '💗', '💓', '💝'][Math.floor(Math.random() * 5)];
+            heart.style.left = e.clientX + 'px';
+            heart.style.top = e.clientY + 'px';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 1500);
+        });
+        
+        // Celebration confetti
+        function celebrate() {
+            const colors = ['💕', '💖', '💗', '💓', '💝', '🌸', '✨', '💍'];
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.textContent = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    confetti.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                    document.body.appendChild(confetti);
+                    setTimeout(() => confetti.remove(), 4000);
+                }, i * 50);
+            }
+            
+            document.getElementById('finalMessage').style.opacity = '1';
+        }
+    </script>
+</body>
+</html>
